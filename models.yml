@@ -1,0 +1,10 @@
+providers:
+  omniroute:
+    baseUrl: http://api.example.com/v1/v1
+    apiKey: OMNIROUTE_API_KEY  # set via env var
+    api: openai-completions
+    authHeader: true
+    disableStrictTools: true
+    discovery:
+      type: openai-models-list
+      injectV1: false

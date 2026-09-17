@@ -1,0 +1,16 @@
+model: omniroute/zai-coding-plan/glm-5.2
+modelRoles:
+  default: omniroute/zai-coding-plan/glm-5.2
+  cheap: omniroute/auto/cheap
+  fast: omniroute/auto/fast
+  best: omniroute/auto/best-coding
+  reasoning: omniroute/auto/best-reasoning
+  vision: omniroute/auto/best-vision
+  review: omniroute/auto/pro-coding:high
+memory:
+  backend: local
+  summaryInjectionTokenLimit: 5000
+compaction:
+  enabled: true
+  methodOrder: ["remote", "snapcompact", "handoff", "shake", "soft"]
+permissions: {}
