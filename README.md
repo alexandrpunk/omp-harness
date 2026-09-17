@@ -10,14 +10,17 @@ Un harness de agentes para omp con un "concilio" de 6 agentes especializados, ro
 
 | Agente | Rol modelo | Uso |
 |---|---|---|
+| researcher | @reasoning | Investigación externa (docs/repos oficiales, con citas) y recon del codebase; contexto comprimido, nunca archivos completos. |
 | planner | @reasoning | Descompone features en tareas acotadas con criterios de aceptación. Nunca implementa. |
 | implementer | @best | Ejecución rápida y acotada, TDD-first, diffs mínimos. |
+| designer | @best | Dueño de UI/UX: layout, jerarquía, motion, accesibilidad, feel de componentes. No para backend/lógica. |
 | reviewer | @review | Gate de review: corrección, seguridad, rendimiento, mantenibilidad; corre tests; aprueba o bloquea. |
 | debugger | @reasoning | Análisis de causa raíz; reproduce primero, hipótesis, fix mínimo. |
 | tester | @cheap | Tests unitarios/integración, coverage, tests de regresión. |
 | docs | @cheap | Actualiza docs/ADRs/README desde el estado real del código. |
+| observer | @vision | Análisis aislado de medios (screenshots, PDFs, diagramas); devuelve texto estructurado. |
 
-**Enrutamiento por defecto:** planner → implementer → reviewer; tester en paralelo post-implementación; debugger solo para bugs persistentes (supervivientes a un intento de fix); docs tras aprobación del reviewer.
+**Enrutamiento por defecto:** researcher → planner → implementer/designer → reviewer; tester en paralelo post-implementación; debugger solo para bugs persistentes (supervivientes a un intento de fix); observer para análisis de medios; docs tras aprobación del reviewer.
 
 ## Roles de modelos
 
