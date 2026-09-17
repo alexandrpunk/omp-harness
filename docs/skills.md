@@ -10,6 +10,11 @@ Skills disponibles en el harness. Fuente: `skills/<name>/SKILL.md`.
 | anti-slop-csharp | Anti-slop para C#: analizadores Roslyn + `.editorconfig`, `dotnet build -warnaserror`, `dotnet format --verify-no-changes`, tests. Solo proyectos .NET (.csproj/.sln). |
 | anti-slop-php | Anti-slop para PHP: PHPStan level max + strict rules, casts encadenados, tipos shapes, supresiones con razón escrita. Solo proyectos composer. |
 | thermos-quality | Gate de calidad pre-entrega multilenguaje: formatter + linter + tests + build/typecheck + checklist anti-slop manual. Bloquea "done" hasta pasar todo. |
+| anti-slop-rust | Anti-slop para Rust: cargo clippy (pedantic/nursery/cargo), no clones/unwrap injustificados, lazy iterators. Gate: clippy -D warnings + cargo test + fmt --check. Solo proyectos Cargo. |
+| anti-slop-python | Anti-slop para Python: ruff con reglas amplias (F/E/I/B/C4/SIM/...), no Any/type: ignore sin razón, TypedDict/NamedTuple. Gate: ruff check --fix + format --check + pytest. Solo proyectos Python. |
+| anti-slop-go | Anti-slop para Go: golangci-lint completo, no interface{} sin razón, no errores ignorados, context primero, %w con contexto. Gate: golangci-lint + go test + go vet. Solo go.mod. |
+| anti-slop-css | Anti-slop para CSS: stylelint standard + plugins (order/a11y), no !important/IDs/z-index mágicos, variables para colores y unidades. Gate: stylelint + prettier. Solo con CSS. |
+| anti-slop-html | Anti-slop para HTML: html-validate, no divitis/inline styles/onclick/tabindex>0, semántica, alt obligatorio. Gate: html-validate. Solo con HTML. |
 | context-hygiene | Optimización de tokens: cuándo delegar a subagentes, compactar en fronteras de fase, leer solo rangos necesarios, modo silencioso. |
 
 ## Curados de ECC (affaan-m/ECC)

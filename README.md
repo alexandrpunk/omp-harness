@@ -33,9 +33,9 @@ Un harness de agentes para omp con un "concilio" de 6 agentes especializados, ro
 
 ## Skills
 
-Ver `docs/skills.md` para la tabla completa. Incluye skills propios (anti-slop-install, thermos-quality, context-hygiene, anti-slop-csharp, anti-slop-php) y 8 skills curados del repo [affaan-m/ECC](https://github.com/affaan-m/ECC).
+Ver `docs/skills.md` para la tabla completa. Incluye skills propios (anti-slop-install, thermos-quality, context-hygiene, y anti-slop para 7 lenguajes) y 8 skills curados del repo [affaan-m/ECC](https://github.com/affaan-m/ECC).
 
-> Nota: `anti-slop-install` (reglas Oxlint de dmmulroy/anti-slop) aplica **solo a proyectos JS/TS** — Oxlint solo parsea JS/TS. Para C# usa `anti-slop-csharp` y para PHP `anti-slop-php`.
+> Cobertura anti-slop para **7 lenguajes**: JS/TS (`anti-slop-install`, Oxlint de dmmulroy/anti-slop — solo JS/TS), C# (`anti-slop-csharp`), PHP (`anti-slop-php`), Rust (`anti-slop-rust`), Python (`anti-slop-python`), Go (`anti-slop-go`) y CSS/HTML (`anti-slop-css`, `anti-slop-html`). Cada skill verifica aplicabilidad primero y sale sin cambios si el lenguaje no corresponde.
 
 ## Instalación
 
