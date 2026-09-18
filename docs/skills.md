@@ -15,6 +15,7 @@ Skills disponibles en el harness. Fuente: `skills/<name>/SKILL.md`.
 | anti-slop-go | Anti-slop para Go: golangci-lint completo, no interface{} sin razón, no errores ignorados, context primero, %w con contexto. Gate: golangci-lint + go test + go vet. Solo go.mod. |
 | anti-slop-css | Anti-slop para CSS: stylelint standard + plugins (order/a11y), no !important/IDs/z-index mágicos, variables para colores y unidades. Gate: stylelint + prettier. Solo con CSS. |
 | anti-slop-html | Anti-slop para HTML: html-validate, no divitis/inline styles/onclick/tabindex>0, semántica, alt obligatorio. Gate: html-validate. Solo con HTML. |
+| design-md | Crear y mantener DESIGN.md — contrato de identidad visual del producto (tokens en frontmatter + reglas de uso); previene defaults genéricos de IA y design drift. |
 | context-hygiene | Optimización de tokens: cuándo delegar a subagentes, compactar en fronteras de fase, leer solo rangos necesarios, modo silencioso. |
 
 ## Curados de ECC (affaan-m/ECC)
