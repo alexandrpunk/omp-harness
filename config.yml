@@ -14,3 +14,6 @@ compaction:
   enabled: true
   methodOrder: ["remote", "snapcompact", "handoff", "shake", "soft"]
 permissions: {}
+# adjust path to your home when installing (active config uses the absolute path)
+extensions:
+  - "$HOME/.omp/agent/extensions/token-guards.ts"

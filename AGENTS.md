@@ -24,6 +24,7 @@
 - Delegate bounded tasks; keep main context lean.
 - Use **@cheap** (tester, docs) for mechanical work; **@reasoning** only where deep analysis pays.
 - Compact at phase boundaries. See `context-hygiene` skill.
+- Active guards: the `token-guards` extension (blocks bash file dumps, truncates oversized tool results) and per-stack `rules/*.md` self-checks are enabled.
 
 ## Available skills
 - `anti-slop-install`: vendor dmmulroy/anti-slop Oxlint rules into TS/JS projects (no-op otherwise).

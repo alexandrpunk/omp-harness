@@ -57,3 +57,12 @@ export OMNIROUTE_API_KEY="sk-..."
 - **Tokens:** delegar tareas acotadas a subagentes; `@cheap` para trabajo mecánico (tester, docs); `@reasoning` solo donde el análisis profundo lo paga. Ver skill `context-hygiene`.
 - **Memoria:** backend local, `summaryInjectionTokenLimit: 5000` — inyección de resúmenes acotada a 5k tokens.
 - **Compaction:** habilitada, orden de métodos `remote → snapcompact → handoff → shake → soft`; compactar en fronteras de fase (post-planning, post-implementación, post-review), nunca a mitad de tarea.
+
+## Token optimization
+
+Además de la política anterior, dos mecanismos activos:
+
+- **`extensions/token-guards.ts`** (registrado en config.yml): hook de omp que (1) bloquea volcados de archivos de código vía `cat`/`head`/`tail` en bash (obliga a usar la herramienta read con offset/limit; pipelines con pipe quedan permitidos), y (2) trunca resultados de herramientas bash/read que superen ~8000 caracteres conservando head (60%) y tail (40%) con marcador claro. Debug silenciable con `TOKEN_GUARDS_QUIET=1`.
+- **`rules/*.md`** — reglas de self-check por stack (TypeScript, Python, Go, Rust, C#, PHP). El agente debe leer la del lenguaje dominante al inicio de sesión y verificarlas antes de declarar done. Cada regla empareja con su skill `anti-slop-*`.
+
+Técnicas adaptadas del artículo de Medium de abdulgafoorabid sobre optimización de tokens en coding agents.
