@@ -36,7 +36,7 @@ Un harness de agentes para omp con un "concilio" de 6 agentes especializados, ro
 
 ## Skills
 
-Ver `docs/skills.md` para la tabla completa. Incluye skills propios (anti-slop-install, thermos-quality, context-hygiene, y anti-slop para 7 lenguajes) y 8 skills curados del repo [affaan-m/ECC](https://github.com/affaan-m/ECC).
+Ver `docs/skills.md` para la tabla completa. Incluye skills propios (anti-slop-install, thermos-quality, context-hygiene, design-md, anti-slop para 7 lenguajes), skills de proceso portados de obra/superpowers (brainstorming, writing-plans, systematic-debugging, test-driven-development), frontend-design (Anthropic) y 8 skills curados del repo [affaan-m/ECC](https://github.com/affaan-m/ECC).
 
 > Cobertura anti-slop para **7 lenguajes**: JS/TS (`anti-slop-install`, Oxlint de dmmulroy/anti-slop — solo JS/TS), C# (`anti-slop-csharp`), PHP (`anti-slop-php`), Rust (`anti-slop-rust`), Python (`anti-slop-python`), Go (`anti-slop-go`) y CSS/HTML (`anti-slop-css`, `anti-slop-html`). Cada skill verifica aplicabilidad primero y sale sin cambios si el lenguaje no corresponde.
 
@@ -63,6 +63,7 @@ export OMNIROUTE_API_KEY="sk-..."
 Además de la política anterior, dos mecanismos activos:
 
 - **`extensions/token-guards.ts`** (registrado en config.yml): hook de omp que (1) bloquea volcados de archivos de código vía `cat`/`head`/`tail` en bash (obliga a usar la herramienta read con offset/limit; pipelines con pipe quedan permitidos), y (2) trunca resultados de herramientas bash/read que superen ~8000 caracteres conservando head (60%) y tail (40%) con marcador claro. Debug silenciable con `TOKEN_GUARDS_QUIET=1`.
+- **`extensions/security-guidance.ts`** (también en config.yml): hook que inspecciona el contenido de edit/write y bloquea secrets hardcodeados (API keys AWS/Google/GitHub, private keys) y patrones peligrosos (eval interpolado, exec con template literals, SQL concatenado, innerHTML con variable, http:// en APIs). Exenta test fixtures, archivos `.example`/`.md` y placeholders. `SECURITY_STRICT=false` para solo-log; silenciable con `SECURITY_QUIET=1`.
 - **`rules/*.md`** — reglas de self-check por stack (TypeScript, Python, Go, Rust, C#, PHP). El agente debe leer la del lenguaje dominante al inicio de sesión y verificarlas antes de declarar done. Cada regla empareja con su skill `anti-slop-*`.
 
 Técnicas adaptadas del artículo de Medium de abdulgafoorabid sobre optimización de tokens en coding agents.

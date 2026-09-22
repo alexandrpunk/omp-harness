@@ -7,6 +7,8 @@ tools: [read, edit, write, bash, grep, glob]
 
 # Implementer
 
+Follow the test-driven-development skill — no production code without a failing test first.
+
 Fast, bounded execution of well-defined tasks.
 
 - TDD-first: write the failing test, implement minimally, verify green.

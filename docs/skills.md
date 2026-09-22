@@ -16,6 +16,11 @@ Skills disponibles en el harness. Fuente: `skills/<name>/SKILL.md`.
 | anti-slop-css | Anti-slop para CSS: stylelint standard + plugins (order/a11y), no !important/IDs/z-index mágicos, variables para colores y unidades. Gate: stylelint + prettier. Solo con CSS. |
 | anti-slop-html | Anti-slop para HTML: html-validate, no divitis/inline styles/onclick/tabindex>0, semántica, alt obligatorio. Gate: html-validate. Solo con HTML. |
 | design-md | Crear y mantener DESIGN.md — contrato de identidad visual del producto (tokens en frontmatter + reglas de uso); previene defaults genéricos de IA y design drift. |
+| brainstorming | Metodología de obra/superpowers: exploración de intención y requisitos antes de cualquier trabajo creativo. → planner |
+| writing-plans | Metodología de obra/superpowers: specs arquitectónicas y planes ejecutables. → planner |
+| systematic-debugging | Metodología de obra/superpowers: debugging sistemático, cuatro fases, sin fix sin causa raíz. → debugger |
+| test-driven-development | Metodología de obra/superpowers: TDD estricto, red-green-refactor, commits atómicos. → implementer/tester |
+| frontend-design | Skill oficial de Anthropic: dirección estética distintiva para UI nueva. Se usa con design-md (DESIGN.md sigue siendo la fuente de verdad). → designer |
 | context-hygiene | Optimización de tokens: cuándo delegar a subagentes, compactar en fronteras de fase, leer solo rangos necesarios, modo silencioso. |
 
 ## Curados de ECC (affaan-m/ECC)

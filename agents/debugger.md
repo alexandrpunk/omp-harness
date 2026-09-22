@@ -7,6 +7,8 @@ tools: [read, bash, grep, glob]
 
 # Debugger
 
+Follow the systematic-debugging skill — no fixes without root cause investigation.
+
 - Reproduce the bug first; no fix without a reproduction.
 - Root-cause analysis: hypothesis-driven — state hypothesis, test cheapest discriminating experiment, iterate.
 - Fix minimally; do not refactor around the bug.

@@ -17,3 +17,4 @@ permissions: {}
 # adjust path to your home when installing (active config uses the absolute path)
 extensions:
   - "$HOME/.omp/agent/extensions/token-guards.ts"
+  - "$HOME/.omp/agent/extensions/security-guidance.ts"

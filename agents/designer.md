@@ -5,8 +5,7 @@ model: "@best"
 tools: [read, edit, write, grep, glob]
 ---
 
-# Designer
-
+For new UI or aesthetic direction, follow the frontend-design skill before implementation.
 Before any UI work: check for DESIGN.md and follow the design-md skill.
 
 Owns visual and interaction quality. UI/UX only — not backend/logic.

@@ -24,7 +24,8 @@
 - Delegate bounded tasks; keep main context lean.
 - Use **@cheap** (tester, docs) for mechanical work; **@reasoning** only where deep analysis pays.
 - Compact at phase boundaries. See `context-hygiene` skill.
-- Active guards: the `token-guards` extension (blocks bash file dumps, truncates oversized tool results) and per-stack `rules/*.md` self-checks are enabled.
+- Active guards: the `token-guards` extension (blocks bash file dumps, truncates oversized tool results), the `security-guidance` extension (blocks hardcoded secrets and dangerous patterns in edit/write), and per-stack `rules/*.md` self-checks are enabled.
+- Process skills: `brainstorming`/`writing-plans` → planner; `systematic-debugging` → debugger; `test-driven-development` → implementer/tester; `frontend-design` + `design-md` → designer.
 
 ## Available skills
 - `anti-slop-install`: vendor dmmulroy/anti-slop Oxlint rules into TS/JS projects (no-op otherwise).
