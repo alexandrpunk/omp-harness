@@ -67,3 +67,9 @@ Además de la política anterior, dos mecanismos activos:
 - **`rules/*.md`** — reglas de self-check por stack (TypeScript, Python, Go, Rust, C#, PHP). El agente debe leer la del lenguaje dominante al inicio de sesión y verificarlas antes de declarar done. Cada regla empareja con su skill `anti-slop-*`.
 
 Técnicas adaptadas del artículo de Medium de abdulgafoorabid sobre optimización de tokens en coding agents.
+
+### Pila de diseño del agente designer
+- `frontend-design` (Anthropic): dirección estética distintiva
+- `web-design-engineer` (ConardLi/garden-skills): sistema de diseño web completo con motion dial y style-recipes
+- `animate` + `animation-vocabulary` + `find-animation-opportunities` + `improve-animations` + `review-animations` (emilkowalski): animaciones sutiles y elegantes con easings correctos
+- `design-md`: contrato de tokens (DESIGN.md) — sigue siendo la fuente de verdad una vez creado

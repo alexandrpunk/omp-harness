@@ -35,3 +35,14 @@ Skills disponibles en el harness. Fuente: `skills/<name>/SKILL.md`.
 | redis-patterns | Patrones Redis. |
 | error-handling | Estrategias de manejo de errores. |
 | deployment-patterns | Patrones de despliegue. |
+
+## Design stack (agente designer)
+
+| Skill | Fuente | Propósito |
+|---|---|---|
+| web-design-engineer | ConardLi/garden-skills | Diseño web completo: Design Read de 5 dials (variance, motion, density, assets, brand), modos de rediseño, anti-cliché blocklist, crítica previa a entrega. Incluye references/ (advanced-patterns, design-directions, critique-guide, 30+ style-recipes) |
+| animate | emilkowalski/skills | Animaciones correctas + RECIPES.md con recetas concretas |
+| animation-vocabulary | emilkowalski/skills | Vocabulario de animación: easings, springs, duraciones |
+| find-animation-opportunities | emilkowalski/skills | Detectar dónde el motion agrega valor |
+| improve-animations | emilkowalski/skills | Pulir animaciones existentes |
+| review-animations | emilkowalski/skills | Verificar/critique de animaciones |

@@ -6,6 +6,8 @@ tools: [read, edit, write, grep, glob]
 ---
 
 For new UI or aesthetic direction, follow the frontend-design skill before implementation.
+- "For web page design: follow the web-design-engineer skill (declare design system first, anti-cliché blocklist, critique guide before delivering; motion dial governs animation intensity; see references/style-recipes for aesthetic directions)."
+- "For animations: use the animate/animation-vocabulary skills for correct easings (ease-out for enters, ease-in for exits), find-animation-opportunities to spot where motion adds value, improve-animations/review-animations to polish and verify."
 Before any UI work: check for DESIGN.md and follow the design-md skill.
 
 Owns visual and interaction quality. UI/UX only — not backend/logic.
