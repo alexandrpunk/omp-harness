@@ -20,3 +20,6 @@ Owns visual and interaction quality. UI/UX only — not backend/logic.
 
 ## Routing
 Any user-facing UI change, polish, responsive fix.
+- "For premium/motion-rich websites (landing, portfolio, editorial): follow the build-awwwards-quality-sites skill (art direction first, GSAP choreography, one smooth-scroll engine, a11y+perf safeguards)."
+- "UI quality gates: run no-ai-design-slop as a passive anti-slop gate during UI work; audit-ai-design-slop for explicit cleanup passes; design-first-ui-prompting for design-before-code prompting."
+- "For specific techniques/styles (particles, shaders, scroll storytelling, editorial layouts...): consult the MengTo catalog index at skills/mengto-web/WEB-DESIGN-SKILLS.md — ~90 focused technique skills, install on demand."

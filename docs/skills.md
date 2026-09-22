@@ -46,3 +46,13 @@ Skills disponibles en el harness. Fuente: `skills/<name>/SKILL.md`.
 | find-animation-opportunities | emilkowalski/skills | Detectar dónde el motion agrega valor |
 | improve-animations | emilkowalski/skills | Pulir animaciones existentes |
 | review-animations | emilkowalski/skills | Verificar/critique de animaciones |
+
+## Skills MengTo (agente designer)
+
+| Skill | Propósito |
+|---|---|
+| mengto-web/build-awwwards-quality-sites | Sitios premium motion-rich: dirección de arte, hérores destacados, GSAP, smooth-scroll, Three.js opcional, a11y+perf |
+| mengto-web/WEB-DESIGN-SKILLS.md | Índice del catálogo (~90 skills de técnicas: partículas, shaders, scroll storytelling, layouts editoriales) — instalar bajo demanda |
+| mengto-ui/no-ai-design-slop | Gate pasivo anti design-slop durante trabajo UI |
+| mengto-ui/audit-ai-design-slop | Auditoría explícita de cleanup de slop |
+| mengto-ui/design-first-ui-prompting | Design-before-code prompting |
