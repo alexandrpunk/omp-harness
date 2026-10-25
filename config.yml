@@ -27,6 +27,6 @@ theme:
   dark: titanium
   light: light
 setupVersion: 2
-extensions:
-  - $HOME/.omp/agent/extensions/token-guards.ts
-  - $HOME/.omp/agent/extensions/security-guidance.ts
+# Extensions are copied to the active OMP agent directory by scripts/setup.sh.
+# The installer writes absolute paths here because configured extension paths are
+# resolved by the runtime loader and this repository is portable.

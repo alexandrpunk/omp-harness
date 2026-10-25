@@ -7,6 +7,12 @@ secrets/
 secrets.*
 *.secret
 *.secrets.json
+# Installer-generated OMP configuration (contains machine paths and credentials)
+.omp-local/
+config.local.yml
+models.local.yml
+**/config.local.yml
+**/models.local.yml
 id_*
 id_*.pub
 *.pem

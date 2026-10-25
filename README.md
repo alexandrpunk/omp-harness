@@ -1,6 +1,25 @@
 # omp-harness
 
-Configuración documentada del harness "oh my pi" (omp). Este proyecto es la copia versionable de `~/.omp/agent/`; la configuración activa vive ahí.
+Configuración documentada del harness "oh my pi" (omp). Este proyecto es una plantilla pública versionable; la configuración activa y los secretos viven fuera del repositorio.
+
+## Instalación pública
+
+La plantilla no contiene endpoints privados ni credenciales. Requiere un runtime `omp` instalado localmente y un proveedor OpenAI-compatible elegido por quien instala.
+
+```sh
+./scripts/setup.sh
+```
+
+El instalador interactivo pide el directorio de instalación de OMP, el endpoint base y la API key (con entrada oculta). No hace llamadas de red ni imprime la key. Genera `config.yml`, `models.yml` y `.env` dentro del directorio elegido; esos archivos contienen rutas absolutas y secretos locales y **no deben versionarse**. La key se guarda como `OMNIROUTE_API_KEY` en un `.env` con permisos 600. Si ya existe cualquiera de esos archivos, la instalación aborta sin cambiar nada; `--force` permite reemplazarlos después de mostrar un resumen y pedir confirmación inequívoca, y crea una copia en `.omp-harness-backup-<pid>` antes de escribir. El runtime carga `.env` desde el directorio activo o desde `~/.omp/agent`; una variable `OMNIROUTE_API_KEY` ya exportada en el proceso tiene precedencia sobre esos archivos. Para la precedencia completa de `.env`, consulta `docs/omp-runtime/providers.md`.
+
+Las extensiones se copian a `<directorio-omp>/extensions/`. La documentación del runtime confirma que las rutas explícitas de extensiones se resuelven como absolutas (y las rutas relativas contra el directorio de trabajo), por eso el instalador calcula y escribe rutas absolutas portables para la máquina local. `--help` muestra el uso sin modificar archivos.
+
+### Seguridad antes de publicar
+
+- Nunca pongas API keys, tokens, endpoints internos, dumps de configuración o rutas de usuario en commits.
+- Revisa `git diff --check` y busca IPs privadas antes de publicar.
+- Mantén `.env`, `config.yml` y `models.yml` generados fuera del repositorio; `.gitignore` cubre secretos y variantes locales.
+- Usa HTTPS en proveedores remotos. `https://api.example.com/v1` en `models.yml` es solo un placeholder y no es un endpoint por defecto del instalador.
 
 ## Qué es
 

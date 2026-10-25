@@ -1,7 +1,10 @@
+# Public template. The installer writes the actual endpoint and API-key
+# environment variable reference to the local file ~/.omp/agent/models.yml.
+# Do not add credentials or private endpoints to this repository.
 providers:
   omniroute:
-    baseUrl: http://api.example.com/v1/v1
-    apiKey: ${OMNIROUTE_API_KEY}
+    baseUrl: https://api.example.com/v1
+    apiKey: OMNIROUTE_API_KEY
     api: openai-completions
     authHeader: true
     disableStrictTools: true
