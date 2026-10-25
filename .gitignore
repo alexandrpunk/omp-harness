@@ -1,0 +1,24 @@
+# Local / secret files — never commit these
+.env
+.env.local
+.env.*.local
+*.env
+secrets/
+secrets.*
+*.secret
+*.secrets.json
+id_*
+id_*.pub
+*.pem
+*.key
+*.key.*
+*.crt
+*.log
+*.local
+.DS_Store
+
+# Build / dependency output
+node_modules/
+dist/
+build/
+.turbo/

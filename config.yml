@@ -5,16 +5,28 @@ modelRoles:
   fast: omniroute/auto/fast
   best: omniroute/auto/best-coding
   reasoning: omniroute/auto/best-reasoning
-  vision: omniroute/auto/best-vision
   review: omniroute/auto/pro-coding:high
+  image: free-stack/vision
 memory:
   backend: local
   summaryInjectionTokenLimit: 5000
 compaction:
   enabled: true
-  methodOrder: ["remote", "snapcompact", "handoff", "shake", "soft"]
-permissions: {}
-# adjust path to your home when installing (active config uses the absolute path)
+  methodOrder:
+    - remote
+    - snapcompact
+    - handoff
+    - shake
+    - soft
+permissions:
+  {}
+symbolPreset: nerd
+composer:
+  shape: claude
+theme:
+  dark: titanium
+  light: light
+setupVersion: 2
 extensions:
-  - "$HOME/.omp/agent/extensions/token-guards.ts"
-  - "$HOME/.omp/agent/extensions/security-guidance.ts"
+  - $HOME/.omp/agent/extensions/token-guards.ts
+  - $HOME/.omp/agent/extensions/security-guidance.ts
