@@ -1,6 +1,6 @@
-model: omniroute/zai-coding-plan/glm-5.2
+model: omniroute/auto/best-reasoning
 modelRoles:
-  default: omniroute/zai-coding-plan/glm-5.2
+  default: omniroute/auto/best-reasoning
   cheap: omniroute/auto/cheap
   fast: omniroute/auto/fast
   best: omniroute/auto/best-coding
