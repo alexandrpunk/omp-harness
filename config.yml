@@ -5,8 +5,8 @@ modelRoles:
   fast: omniroute/auto/fast
   best: omniroute/auto/best-coding
   reasoning: omniroute/auto/best-reasoning
-  review: omniroute/auto/pro-coding:high
-  image: free-stack/vision
+  elephant: omniroute/auto/best-reasoning
+  goldfish: omniroute/auto/cheap
 memory:
   backend: local
   summaryInjectionTokenLimit: 5000

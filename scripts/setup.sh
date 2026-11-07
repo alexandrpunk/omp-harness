@@ -36,8 +36,7 @@ command -v stty >/dev/null 2>&1 || { printf '%s\n' 'Error: stty is required for 
 
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 [ -f "$repo_dir/extensions/token-guards.ts" ] || { printf '%s\n' 'Error: token-guards extension is missing.' >&2; exit 1; }
-[ -f "$repo_dir/extensions/security-guidance.ts" ] || { printf '%s\n' 'Error: security-guidance extension is missing.' >&2; exit 1; }
-
+[ -f "$repo_dir/extensions/cpa-orchestration.ts" ] || { printf '%s\n' 'Error: cpa-orchestration extension is missing.' >&2; exit 1; }
 # Keep controls out of paths and values without ever putting a secret in argv.
 newline='
 '
@@ -221,6 +220,8 @@ mkdir "$tmp_dir" "$tmp_dir/extensions"
 } > "$tmp_dir/models.yml"
 printf '%s\n' "OMNIROUTE_API_KEY=$api_key" > "$tmp_dir/.env"
 cp "$repo_dir/extensions/token-guards.ts" "$tmp_dir/extensions/token-guards.ts"
+cp "$repo_dir/extensions/elephant-goldfish.ts" "$tmp_dir/extensions/elephant-goldfish.ts"
+cp "$repo_dir/extensions/cpa-orchestration.ts" "$tmp_dir/extensions/cpa-orchestration.ts"
 cp "$repo_dir/extensions/security-guidance.ts" "$tmp_dir/extensions/security-guidance.ts"
 chmod 600 "$tmp_dir/.env" "$tmp_dir/config.yml" "$tmp_dir/models.yml"
 
@@ -231,19 +232,20 @@ if [ "$force" -eq 1 ] && [ "$existing" -eq 1 ]; then
     for file in "$config_file" "$models_file" "$env_file"; do
         if [ -e "$file" ]; then cp "$file" "$backup_dir/$(basename "$file")"; fi
     done
-    for file in "$omp_dir/extensions/token-guards.ts" "$omp_dir/extensions/security-guidance.ts"; do
+    for file in "$omp_dir/extensions/token-guards.ts" "$omp_dir/extensions/elephant-goldfish.ts" "$omp_dir/extensions/cpa-orchestration.ts" "$omp_dir/extensions/security-guidance.ts"; do
         if [ -e "$file" ]; then
             mkdir -p "$backup_dir/extensions"
             cp "$file" "$backup_dir/extensions/$(basename "$file")"
         fi
     done
-    printf '%s\n' "Backed up existing files to $backup_dir"
 fi
 
 mv "$tmp_dir/config.yml" "$config_file"
 mv "$tmp_dir/models.yml" "$models_file"
 mv "$tmp_dir/.env" "$env_file"
 mv "$tmp_dir/extensions/token-guards.ts" "$omp_dir/extensions/token-guards.ts"
+mv "$tmp_dir/extensions/elephant-goldfish.ts" "$omp_dir/extensions/elephant-goldfish.ts"
+mv "$tmp_dir/extensions/cpa-orchestration.ts" "$omp_dir/extensions/cpa-orchestration.ts"
 mv "$tmp_dir/extensions/security-guidance.ts" "$omp_dir/extensions/security-guidance.ts"
 printf '%s\n' "Installed portable omp-harness configuration in $omp_dir" \
     'The API key was not printed. Keep the generated .env, config.yml, and models.yml private.' \
