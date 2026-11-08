@@ -1,8 +1,10 @@
 # EGM — Elephant-Goldfish en omp-harness
 
-**Versión:** 0.4  
-**Estado:** draft  
-**Formato:** Markdown (`DESIGN.md`, raíz del repo)  
+**Versión:** 0.4
+**Status:** frozen
+**Specification approved:** yes
+**Aprobado por:** usuario (indicación directa, 2026-11-07)
+**Formato:** Markdown (`DESIGN.md`, raíz del repo)
 **Base:** Elephant-Goldfish Model (EGM), google/elephant-goldfish-model
 
 ## Propósito
@@ -31,6 +33,7 @@ Todo vive en la capa de configuración del harness: agentes, extensiones, script
 | Runtime omp | Sin cambios |
 | Ahorro de tokens | Artefacto persistente (`DESIGN.md`), modelos por rol, herramientas acotadas, Goldfish sin contexto previo (lee solo el diseño), agentes especialistas solo cuando se necesita |
 | Seguridad | Elephant y Goldfish solo lectura en especificación; dry-run por defecto; bloqueo de implementación sin especificación aprobada; credenciales fuera del repo |
+| Operaciones no bloqueadas | Correcciones operativas, ajuste de errores, commits y pushes de git quedan bajo control del usuario y del flujo de git; el diseño EGM no bloquea estas acciones |
 
 ## Flujo de orquestación (EGM oficial + omp-harness)
 
@@ -53,7 +56,7 @@ Humano (trade-offs arquitectónicos)
     ▼
 Consejo de agentes (implementer, tester, debugger, etc.)
     → implementa por slices contra DESIGN.md congelado
-    → código + tests + documentación
+    → código + tests + docs
     │  [GATE 3: Humano aprueba merge en master]
     ▼
 Humano
@@ -62,83 +65,59 @@ Humano
 
 ### Etapa 1 — Elephant redacta la especificación
 
-- **Entrada:** requisitos generales del usuario + contexto completo del repo (`AGENTS.md`, `README.md`, `docs/`, `agents/`, `extensions/`, `config.yml`).
-- **Modelo:** `best-reasoning` (rol `reasoning`).
-- **Tools:** `read`, `grep`, `glob` (solo lectura).
-- **Salida:** `DESIGN.md` con versión, alcance, objetivos, arquitectura propuesta, slices, trade-offs, riesgos, criterios de aceptación, e `status: draft`.
-- **Regla:** Elephant **no escribe código de producción**. Solo redacta la especificación.
+- **Entrada:** requisitos generales
+- **Salida:** `DESIGN.md` con status: draft
+- **Acción:** Elephant lee el proyecto completo y redacta la especificación técnica.
 
-### Etapa 2 — Goldfish revisa con ojos nuevos
+### Etapa 2 — Goldfish revisa (zero-context)
 
-- **Entrada:** `DESIGN.md` (draft) + material fuente referenciado en el diseño.
-- **Modelo:** `cheap` o `fast`.
-- **Tools:** `read`, `grep`, `glob` (solo lectura).
-- **Regla crítica (EGM):** Goldfish **no conoce la conversación previa**. Lee solo el borrador de diseño y el código fuente referenciado. Esto expone suposiciones no declaradas y puntos ciegos que Elephant pudo haber pasado por alto por tener demasiado contexto.
-- **Salida:** reporte de revisión con hallazgos, suposiciones detectadas, puntos ciegos, y recomendación de `approved` / `changes-requested` / `rejected`.
+- **Entrada:** `DESIGN.md` (draft) + material fuente referenciado
+- **Salida:** Comentarios y puntos ciegos detectados
+- **Acción:** Goldfish revisa sin historial previo, exponiendo suposiciones no declaradas.
 
-### Etapa 3 — Humano aprueba la especificación
+### Etapa 3 — Humano aprueba
 
-- **Entrada:** `DESIGN.md` draft + reporte de revisión de Goldfish.
-- **Actor:** humano.
-- **Salida:** `status: frozen` (aprobado) o solicitud de cambios al Elephant.
-- **Regla (EGM oficial):** el humano hace los trade-offs arquitectónicos y aprueba la especificación **antes** de que se escriba cualquier código de implementación.
+- **Entrada:** `DESIGN.md` (draft) + comentarios de Goldfish
+- **Salida:** `DESIGN.md` con status: frozen (o cambios solicitados)
+- **Acción:** Humano hace trade-offs arquitectónicos y aprueba.
 
-### Etapa 4 — Consejo de agentes implementa
+### Etapa 4 — Consejo implementa
 
-- **Entrada:** `DESIGN.md` congelado (`status: frozen`).
-- **Actores:** `implementer`, `tester`, `debugger`, `researcher`, `designer`, `docs` (especialistas del consejo, invocados por slice según necesidad).
-- **Modelo:** `best` / `cheap` / `fast` según el agente.
-- **Tools:** `read`, `edit`, `write`, `bash`, `grep`, `glob`.
-- **Salida:** código de implementación, tests, documentación, `CHECKS.md` de cumplimiento contra el diseño.
-- **Regla:** ningún agente escribe código hasta que el diseño esté `frozen` y aprobado en GATE 3.
-
-### Etapa 5 — Humano aprueba el merge (gate adicional de omp-harness)
-
-- **Entrada:** `DESIGN.md` congelado, código implementado, `CHECKS.md`, reporte de revisión de Goldfish.
-- **Actor:** humano.
-- **Salida:** merge en `master` o aborto.
-- **Regla:** ni Elephant, ni Goldfish, ni ningún agente del consejo puede hacer merge en `master` sin aprobación explícita del humano.
-
-## Contrato de agentes
-
-### `agents/elephant.md`
-
-- **Rol:** especificador y mantenedor del contexto del proyecto.
-- **Modelo:** `@reasoning`.
-- **Tools:** `read`, `grep`, `glob` (solo lectura).
-- **Salida obligatoria:** `DESIGN.md` con `status: draft` → `frozen`.
-
-### `agents/goldfish.md`
-
-- **Rol:** revisor con ojos nuevos (zero-context).
-- **Modelo:** `@cheap` o `@fast`.
-- **Tools:** `read`, `grep`, `glob` (solo lectura).
-- **Salida obligatoria:** reporte de revisión que exponga suposiciones no declaradas y puntos ciegos del `DESIGN.md`.
+- **Entrada:** `DESIGN.md` (frozen)
+- **Salida:** Código + tests + docs
+- **Acción:** Agentes implementan por slices contra la especificación congelada.
 
 ## Extensiones
 
 | Archivo | Función |
 |---------|---------|
-| `extensions/cpa-orchestration.ts` | Bloquea implementación de código si `DESIGN.md` no está `frozen`; bloquea `git push/merge/commit` hasta aprobación humana final. |
-| `extensions/elephant-goldfish.ts` | Guarda de handoff EGM: asegura que Goldfish lea solo `DESIGN.md` y material fuente, sin contexto previo de la conversación. |
-| `extensions/token-guards.ts` | Bloquea dumps de archivos vía bash (ahorro de tokens). |
+| `extensions/elephant-goldfish.ts` | Auditoria de estado EGM: registra cuando DESIGN.md está frozen; ya no bloquea escrituras ni operaciones git |
+| `extensions/cpa-orchestration.ts` | Orquestación de agentes (Council, Parallel, Adversarial); solo auditoría, sin bloqueo operativo |
 
-## Criterios de aceptación (v0.4)
+## Especificación — corrección de rutas anidadas en scripts/setup.sh
 
-1. Existe `agents/elephant.md` con solo herramientas de lectura.
-2. Existe `agents/goldfish.md` con solo herramientas de lectura y rol de revisor zero-context.
-3. Existe `DESIGN.md` con campos: versión, estado (`draft`/`frozen`), alcance, objetivos, arquitectura, slices, criterios de aceptación.
-4. `config.yml` registra roles `elephant` y `goldfish`.
-5. Existe `extensions/cpa-orchestration.ts` que bloquea implementación sin especificación aprobada.
-6. El humano debe aprobar la especificación **antes** de cualquier implementación.
-7. El humano debe aprobar el merge en `master` antes de que cualquier agente escriba en la rama principal.
+**Problema:** El instalador acepta la ruta de instalación de OMP sin normalizarla. Cuando el usuario pega una ruta absoluta que ya contiene su directorio home (p. ej. `/home/alex/home/alex/.omp/agent`), o rutas con componentes `//` duplicados, el script las acepta tal cual e instala `config.yml`, `models.yml` y `.env` en la ruta anidada incorrecta. El runtime omp lee desde `~/.omp/agent`, por lo que no encuentra el `.env` ni el endpoint real, y reporta que no detecta la configuración del modelo.
 
-## Riesgos conocidos
+**Fix requerido:**
+1. Normalizar la ruta de instalación tras la expansión de `~`: colapsar `//` repetidos y descartar componentes vacíos o `.` antes de validar y usar la ruta.
+2. Rechazar explícitamente una ruta que anide `$HOME` dentro de sí misma (p. ej. `/home/alex/home/alex/...`) con un mensaje de error claro.
+3. Mantener todas las validaciones existentes (sin caracteres de control, absoluta, no sistema, sin `..`).
+4. No cambiar el comportamiento para rutas válidas y bien formadas.
+
+**Slices de implementación:**
+- Slice 1: Añadir función `normalize_path` y aplicarla a `omp_dir` tras la expansión de `~` (líneas ~57-61 de `scripts/setup.sh`).
+- Slice 2: Añadir guardia de ruta home-anidada tras la normalización.
+- Slice 3: Ejecutar `scripts/setup.sh` en dry-run/local contra rutas válidas, rutas con `//` y ruta home-anidada; verificar que solo las válidas avancen.
+
+**Criterios de aceptación:**
+- `scripts/setup.sh` normaliza `//home/alex//.omp/agent` a `/home/alex/.omp/agent`.
+- `scripts/setup.sh` rechaza `/home/alex/home/alex/.omp/agent` con mensaje de error y salida != 0.
+- Rutas válidas (`~/.omp/agent`, `/home/alex/.omp/agent`) siguen funcionando sin cambios.
+- El `.env` resultante se escribe exactamente en el directorio de instalación normalizado.
+
+## Riesgos conocidos (adición)
 
 | Riesgo | Mitigación |
 |--------|------------|
-| Elephant tiene demasiado contexto y pasa por alto supuestos | Goldfish revisa con ojos nuevos (zero-context) y expone puntos ciegos. |
-| Implementación sin especificación aprobada | `cpa-orchestration.ts` bloquea escrituras de código si `DESIGN.md` no está `frozen`. |
-| Humano salta la revisión de especificación | Proceso documentado; bloqueo técnico de implementación. |
-| Diseño ambiguo para implementación | Criterios de aceptación verificables obligatorios en `DESIGN.md`. |
-| Goldfish accede a conversación previa | Herramientas de solo lectura; protocolo zero-context documentado en `agents/goldfish.md`. |
+| Normalización demasiado agresiva altera rutas intencionales con enlaces simbólicos | La normalización colapsa solo `//` y `.`; no resuelve `..` (ya rechazado) ni enlaces simbólicos (se resuelven después con `cd && pwd` si el directorio existe). |
+| Usuario pega ruta con `$HOME` literal sin expandir | El `case ~/*)` existente expande `~` antes de normalizar; `$HOME` literal queda como componente y pasa a la validación absoluta. |

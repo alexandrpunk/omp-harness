@@ -57,6 +57,54 @@ case "$omp_dir" in
     ~/*) omp_dir=${HOME:-}${omp_dir#\~} ;;
     ~) omp_dir=${HOME:-} ;;
 esac
+
+# Normalize the installation path: collapse repeated slashes and drop empty/. components.
+# This prevents installing into a nested/duplicated path such as
+# /home/alex/home/alex/.omp/agent when the user pastes a full path by mistake.
+normalize_path() {
+    path=$1
+    rest=${path#/}
+    result=
+    while [ -n "$rest" ]; do
+        case $rest in
+            */*)
+                comp=${rest%%/*}
+                rest=${rest#*/}
+                ;;
+            *)
+                comp=$rest
+                rest=
+                ;;
+        esac
+        case $comp in
+            ''|.) ;;
+            *)
+                if [ -n "$result" ]; then result=$result/$comp; else result=$comp; fi
+                ;;
+        esac
+    done
+    [ -n "$result" ] || result=/
+    printf '%s\n' "/$result"
+}
+
+# Reject a path that nests $HOME inside itself (e.g. /home/alex/home/alex/.omp/agent).
+check_home_nesting() {
+    case "$1" in
+        ${HOME}${HOME}/*|${HOME}${HOME})
+            printf '%s
+' 'Error: installation directory nests your home directory inside itself.' >&2
+            return 1 ;;
+    esac
+    return 0
+}
+
+omp_dir=$(normalize_path "$omp_dir") || {
+    printf '%s\n' 'Error: could not normalize installation directory.' >&2
+    exit 1
+}
+
+check_home_nesting "$omp_dir" || exit 1
+
 contains_control "$omp_dir" || { printf '%s\n' 'Error: installation directory contains control characters.' >&2; exit 1; }
 case "$omp_dir" in
     /*) ;;
