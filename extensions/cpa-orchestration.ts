@@ -1,8 +1,19 @@
-// cpa-orchestration.ts — omp extension: Capa de Planeación y Orquestación EGM (solo auditoría, sin bloqueo)
+// cpa-orchestration.ts — omp extension: Capa de Planeación y Orquestación EGM (auditoría pasiva, sin bloqueos)
+// 
+// Flujo oficial (EGM + omp-harness):
+//   1. Elephant (contexto) redacta DESIGN.md (draft)
+//   2. Goldfish (zero-context) revisa el draft
+//   3. Humano aprueba la especificación → DESIGN.md status: frozen (GATE 2)
+//   4. Consejo de agentes implementa contra DESIGN.md congelado
+//   5. Humano aprueba merge en master (GATE 3)
+//   6. Operaciones git (commits, pushes) sin bloqueos — bajo control del usuario
 //
-// Coordina el flujo Elephant-Goldfish sobre omp-harness según el modelo oficial de Google.
-// Este hook solo registra estado; no bloquea escrituras de código fuente ni operaciones git.
-// Las correcciones operativas, ajuste de errores y commits son responsabilidad del humano.
+// Este hook:
+//
+//   - Solo registra cuándo DESIGN.md está frozen (auditoría pasiva).
+//   - No bloquea escrituras de código source.
+//   - No bloquea tool_call ni operaciones de git.
+//   - El flujo de merge y git queda bajo control humano/directo.
 
 type HookAPI = any;
 type ToolCallEvent = any;
@@ -32,6 +43,7 @@ function isDesignFrozen(text: string): boolean {
 }
 
 export default function hook(pi: HookAPI): void {
+  // Solo rastreamos el estado; no bloqueamos operaciones.
   let designFrozen = false;
 
   pi.on("tool_result", async (event: ToolResultEvent) => {
@@ -41,16 +53,13 @@ export default function hook(pi: HookAPI): void {
         const content = extractTextContent(event);
         if (content && isDesignFrozen(content)) {
           designFrozen = true;
-          log(`DESIGN.md frozen detected`);
+          log(`DESIGN.md frozen detected (audit only)`);
         }
       }
     }
   });
 
-  // Nota: este hook ya no bloquea tool_call ni operaciones de git. Las escrituras
-  // de código fuente y los commits/pushes quedan bajo control del flujo de git y
-  // del usuario, no del diseño EGM.
   pi.on("tool_call", async (_event: ToolCallEvent) => {
-    // Sin bloqueo operativo.
+    // Sin bloqueo. Escrituras y operaciones de git quedan bajo control del usuario.
   });
 }

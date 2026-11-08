@@ -1,8 +1,15 @@
-// elephant-goldfish.ts — omp extension: Guarda de handoff EGM (solo auditoría, sin bloqueo)
+// elephant-goldfish.ts — omp extension: Guarda de handoff EGM (solo auditoría pasiva)
+// Flujo EGM oficial:
+//   - Elephant redacta DESIGN.md (draft)
+//   - Goldfish revisa (zero-context)
+//   - Humano aprueba → DESIGN.md status: frozen
+//   - Consejo implementa contra DESIGN.md congelado
+//   - Gate humano aprobar merge en master
 //
-// Flujo EGM documentado en DESIGN.md. Este hook solo registra estado; no bloquea
-// escrituras de código fuente ni operaciones git. Las correcciones operativas,
-// ajuste de errores y commits son responsabilidad del humano y del flujo de git.
+// Este hook SOLO registra el estado frozen. Bloquea NINGUNA operación:
+// - Escrituras de código fuente: permitidas siempre (el humano/diseño las controla)
+// - Git commits/pushes: permitidos siempre (administración de reposo)
+// - tool_result/write: solo audita cuando DESIGN.md está frozen
 
 type HookAPI = any;
 type ToolCallEvent = any;
@@ -32,6 +39,7 @@ function isDesignFrozen(text: string): boolean {
 }
 
 export default function hook(pi: HookAPI): void {
+  // Solo rastreamos el estado; no bloqueamos nada.
   let designFrozen = false;
 
   pi.on("tool_result", async (event: ToolResultEvent) => {
@@ -41,15 +49,15 @@ export default function hook(pi: HookAPI): void {
         const content = extractTextContent(event);
         if (content && isDesignFrozen(content)) {
           designFrozen = true;
-          log(`DESIGN.md frozen detected`);
+          log(`DESIGN.md frozen detected (audit only)`);
         }
       }
     }
   });
 
-  // Nota: este hook ya no bloquea tool_call. Las operaciones de escritura y git
-  // quedan bajo control del flujo de git y del usuario, no del diseño EGM.
+  // Sin bloqueo operativo. Cualquier escritura o llamada de herramienta queda
+  // bajo control del usuario y del flujo de git, no del diseño EGM.
   pi.on("tool_call", async (_event: ToolCallEvent) => {
-    // Sin bloqueo operativo. Solo auditoría pasiva si se desea en el futuro.
+    // Registro pasivo si se desea; no hay bloqueo.
   });
 }
